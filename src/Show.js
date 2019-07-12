@@ -1,9 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-class Movie extends React.Component {
+class Show extends React.Component {
+  static propTypes = {
+    show: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  };
+
+  static defaultProps = {};
   render() {
-    return <div>{this.props.show.name}</div>;
+    return (
+      <div>
+        <h3>{this.props.show.name}</h3>
+        <p>{this.props.desc}</p>
+      </div>
+    );
   }
 }
 
-export default Movie;
+export default Show;
