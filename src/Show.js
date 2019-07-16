@@ -1,22 +1,23 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Show extends React.Component {
-  static propTypes = {
-    show: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  };
+const POSTER_PATH = 'https://image.tmdb.org/t/p/w154/';
+const Show = ({ show }) => (
+  <div>
+    <img src={`${POSTER_PATH}${show.poster_path}`} alt="" />
+    <h3>{show.name}</h3>
+    <p>{show.overview}</p>
+  </div>
+);
 
-  static defaultProps = {};
-  render() {
-    return (
-      <div>
-        <h3>{this.props.show.name}</h3>
-        <p>{this.props.desc}</p>
-      </div>
-    );
-  }
-}
+Show.propTypes = {
+  show: PropTypes.shape({
+    name: PropTypes.string,
+    overview: PropTypes.string,
+  }).isRequired,
+};
+
+Show.defaultProps = {};
 
 export default Show;
