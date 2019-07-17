@@ -8,7 +8,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #111;
   min-height: 10vh;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,15 @@
 
 .App-header h1 {
   font-size: 22px;
+}
+
+.App-header a {
+  text-decoration: none;
+  color: white;
+  transition: 0.2s all ease-out;
+}
+.App-header a:hover {
+  transform: translateY(-3px);
 }
 
 .App-link {
