@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Poster } from './Show';
+import Overdrive from 'react-overdrive';
 
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w342/';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
@@ -32,6 +33,14 @@ class ShowDetail extends Component {
     const { show } = this.state;
     return (
       <ShowWrapper backdrop={`${BACKDROP_PATH}${show.backdrop_path}`}>
+        <Overdrive id={show.id} easing="ease-out">
+          <ShowHeader>
+            <img
+              src={`${BACKDROP_PATH}${show.backdrop_path}`}
+              alt={`${this.state.show.name} Backdrop`}
+            />
+          </ShowHeader>
+        </Overdrive>
         <ShowInfo>
           <Poster src={`${POSTER_PATH}${show.poster_path}`} alt="" />
           <div>
@@ -52,13 +61,20 @@ export default ShowDetail;
 
 const ShowWrapper = styled.div`
   position: relative;
-  padding-top: 50vh;
-  background: url(${props => props.backdrop}) no-repeat;
-  background-size: cover;
+`;
+
+const ShowHeader = styled.div`
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
 `;
 
 const ShowInfo = styled.div`
-  background: white;
+  background: #222;
+  color: white;
   text-align: left;
   padding: 1rem 10%;
   display: flex;

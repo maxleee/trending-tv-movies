@@ -3,15 +3,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Overdrive from 'react-overdrive';
 
-const POSTER_PATH = 'https://image.tmdb.org/t/p/w154/';
-const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w300/';
+const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w780/';
 
 const Show = ({ show }) => (
   <Link to={`${show.id}`}>
-    <ShowCard backdrop={`${BACKDROP_PATH}${show.backdrop_path}`}>
-      <h2>{show.name}</h2>
-    </ShowCard>
+    <Overdrive id={show.id} easing="ease-out">
+      <ShowCard backdrop={`${BACKDROP_PATH}${show.backdrop_path}`}>
+        <h2>{show.name}</h2>
+      </ShowCard>
+    </Overdrive>
   </Link>
 );
 
@@ -44,5 +46,6 @@ const ShowCard = styled.div`
     position: absolute;
     padding-left: 20px;
     bottom: 0;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
   }
 `;
