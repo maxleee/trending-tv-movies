@@ -7,30 +7,6 @@
   pointer-events: none;
 }
 
-.App-header {
-  background-color: #111;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-header h1 {
-  font-size: 22px;
-}
-
-.App-header a {
-  text-decoration: none;
-  color: white;
-  transition: 0.2s all ease-out;
-}
-.App-header a:hover {
-  transform: translateY(-3px);
-}
-
 .App-link {
   color: #61dafb;
 }

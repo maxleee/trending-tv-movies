@@ -30,7 +30,9 @@ class ShowDetail extends Component {
   }
 
   render() {
-    const { show } = this.state;
+    const showId = this.props.match.params.id;
+    const showIndex = this.props.tv.findIndex(show => show.id == showId);
+    const show = this.props.tv[showIndex];
     return (
       <ShowWrapper backdrop={`${BACKDROP_PATH}${show.backdrop_path}`}>
         <Overdrive id={show.id}>

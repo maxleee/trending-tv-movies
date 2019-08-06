@@ -12,7 +12,7 @@ const Show = ({ show }) => (
     <ShowCard>
       <h2>{show.name}</h2>
       <Overdrive id={show.id}>
-        <img src={`${BACKDROP_PATH}${show.backdrop_path}`} />
+        <img src={`${BACKDROP_PATH}${show.backdrop_path}`} alt={show.name} />
       </Overdrive>
     </ShowCard>
   </Link>
@@ -22,6 +22,7 @@ Show.propTypes = {
   show: PropTypes.shape({
     name: PropTypes.string,
     overview: PropTypes.string,
+    id: PropTypes.number,
   }).isRequired,
 };
 
@@ -34,11 +35,12 @@ export const Poster = styled.img`
 `;
 
 const ShowCard = styled.div`
-  height: 200px;
+  max-height: 200px;
   border-radius: 5px;
   margin: 1rem;
   position: relative;
   overflow: hidden;
+
   h2 {
     text-decoration: none;
     color: white;
