@@ -5,9 +5,7 @@ import styled from 'styled-components';
 import './App.css';
 import ShowList from './ShowList';
 import ShowDetail from './ShowDetail';
-import Toggle from './Toggle';
-import Menu from './Menu';
-import Icon from './Utilities/Icon';
+import {Toggle, Menu, Icon} from './Utilities';
 
 class App extends Component {
   state = {

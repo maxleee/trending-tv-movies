@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Portal from './Portal';
-import Icon from './Utilities/Icon';
+import Icon from './Icon';
 
 export default class Menu extends Component {
   render() {
