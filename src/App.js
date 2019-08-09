@@ -1,26 +1,27 @@
 /* eslint-disable react/destructuring-assignment */
-import React, {Fragment, Component} from 'react';
-import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import React, { Fragment, Component } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import './App.css';
 import ShowList from './ShowList';
 import ShowDetail from './ShowDetail';
-import {Toggle, Menu, Icon} from './Utilities';
+import { Toggle } from 'Utilities';
+import { Menu, Icon } from 'Elements';
 
 class App extends Component {
   state = {
-    tv: []
+    tv: [],
   };
 
   async componentDidMount() {
     try {
       const result = await fetch(
-        'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126'
+        'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126',
       );
       const shows = await result.json();
 
       this.setState({
-        tv: shows.results
+        tv: shows.results,
       });
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -30,30 +31,30 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className='App'>
+        <div className="App">
           <Header>
             <Toggle>
-              {({on, toggle}) => (
+              {({ on, toggle }) => (
                 <Fragment>
                   <button onClick={toggle}>
-                    <Icon name='menu' color='#fff' />
+                    <Icon name="menu" color="#fff" />
                   </button>
                   <Menu on={on} toggle={toggle} />
                 </Fragment>
               )}
             </Toggle>
-            <Link to='/'>LUTV</Link>
+            <Link to="/">LUTV</Link>
             <div />
           </Header>
 
           <Switch>
             <Route
-              path='/:id'
+              path="/:id"
               render={props => <ShowDetail {...props} tv={this.state.tv} />}
             />
             <Route
               exact
-              path='/'
+              path="/"
               render={props => <ShowList {...props} tv={this.state.tv} />}
             />
           </Switch>

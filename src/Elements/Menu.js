@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import Portal from './Portal';
+import { Portal } from 'Utilities';
 import Icon from './Icon';
 
 export default class Menu extends Component {
   render() {
-    const {toggle, on} = this.props;
+    const { toggle, on } = this.props;
     return (
       <Portal>
         {on && (
           <ModalWrapper>
             <ModalWindow>
               <CloseButton onClick={toggle}>
-                <Icon name='close' color='#fff' />
+                <Icon name="close" color="#fff" />
               </CloseButton>
               <MenuList>
                 <li>Trending TV</li>
