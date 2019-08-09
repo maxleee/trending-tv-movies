@@ -1,27 +1,28 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Fragment, Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import React, {Fragment, Component} from 'react';
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import styled from 'styled-components';
 import './App.css';
 import ShowList from './ShowList';
 import ShowDetail from './ShowDetail';
 import Toggle from './Toggle';
 import Menu from './Menu';
+import Icon from './Utilities/Icon';
 
 class App extends Component {
   state = {
-    tv: [],
+    tv: []
   };
 
   async componentDidMount() {
     try {
       const result = await fetch(
-        'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126',
+        'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126'
       );
       const shows = await result.json();
 
       this.setState({
-        tv: shows.results,
+        tv: shows.results
       });
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -31,31 +32,30 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
-          <Header className="App-header">
-            <Link to="/">
-              <h1>LUTV</h1>
-            </Link>
+        <div className='App'>
+          <Header>
             <Toggle>
-              {({ on, toggle }) => (
+              {({on, toggle}) => (
                 <Fragment>
-                  <button onClick={toggle}>Menu</button>
-                  <Menu on={on} toggle={toggle}>
-                    <h1>In a Menu</h1>
-                  </Menu>
+                  <button onClick={toggle}>
+                    <Icon name='menu' color='#fff' />
+                  </button>
+                  <Menu on={on} toggle={toggle} />
                 </Fragment>
               )}
             </Toggle>
+            <Link to='/'>LUTV</Link>
+            <div />
           </Header>
 
           <Switch>
             <Route
-              path="/:id"
+              path='/:id'
               render={props => <ShowDetail {...props} tv={this.state.tv} />}
             />
             <Route
               exact
-              path="/"
+              path='/'
               render={props => <ShowList {...props} tv={this.state.tv} />}
             />
           </Switch>
@@ -71,25 +71,28 @@ const Header = styled.header`
   background-color: #111;
   min-height: 10vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: white;
 
-  h1 {
-    font-size: 22px;
-  }
   a {
+    font-size: 22px;
+    font-weight: 700;
     text-decoration: none;
     color: white;
     transition: 0.2s all ease-out;
+    padding: 0;
   }
   a:hover {
     transform: translateY(-3px);
   }
   button {
-    position: absolute;
-    left: 2rem;
+    background: transparent;
+    border: none;
+    width: 20px;
+    padding: 10px;
+    box-sizing: content-box;
+    margin-left: 2rem;
   }
 `;

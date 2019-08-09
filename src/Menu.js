@@ -1,16 +1,24 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import Portal from './Portal';
+import Icon from './Utilities/Icon';
 
 export default class Menu extends Component {
   render() {
-    const { children, toggle, on } = this.props;
+    const {toggle, on} = this.props;
     return (
       <Portal>
         {on && (
           <ModalWrapper>
-            <button onClick={toggle}>Close</button>
-            <div>{children}</div>
+            <ModalWindow>
+              <CloseButton onClick={toggle}>
+                <Icon name='close' color='#fff' />
+              </CloseButton>
+              <MenuList>
+                <li>Trending TV</li>
+                <li>Trending Movies</li>
+              </MenuList>
+            </ModalWindow>
           </ModalWrapper>
         )}
       </Portal>
@@ -26,4 +34,27 @@ const ModalWrapper = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   color: white;
+`;
+
+const ModalWindow = styled.div`
+  position: relative;
+  width: 20%;
+  height: 100%;
+  padding: 50px;
+  background: rgba(0, 0, 10, 1);
+`;
+
+const CloseButton = styled.button`
+  background: transparent;
+  border: none;
+`;
+
+const MenuList = styled.ul`
+  list-style: none;
+  padding: 0;
+  li {
+    font-size: 2rem;
+    padding-bottom: 1rem;
+    font-weight: 300;
+  }
 `;

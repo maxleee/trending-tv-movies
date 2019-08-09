@@ -1,38 +1,18 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
-import { Poster } from './Show';
+import {Poster} from './Show';
 import Overdrive from 'react-overdrive';
 
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w342/';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
 
 class ShowDetail extends Component {
-  state = {
-    show: {},
-  };
-
-  async componentDidMount() {
-    try {
-      const result = await fetch(
-        `https://api.themoviedb.org/3/tv/${
-          this.props.match.params.id
-        }?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`,
-      );
-      const show = await result.json();
-
-      this.setState({
-        show,
-      });
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(e);
-    }
-  }
-
   render() {
-    const showId = this.props.match.params.id;
-    const showIndex = this.props.tv.findIndex(show => show.id == showId);
+    const showId = parseInt(this.props.match.params.id);
+    const showIndex = this.props.tv.findIndex(show => show.id === showId);
     const show = this.props.tv[showIndex];
+    console.log(showId);
+
     return (
       <ShowWrapper backdrop={`${BACKDROP_PATH}${show.backdrop_path}`}>
         <Overdrive id={show.id}>
@@ -44,7 +24,7 @@ class ShowDetail extends Component {
           </ShowHeader>
         </Overdrive>
         <ShowInfo>
-          <Poster src={`${POSTER_PATH}${show.poster_path}`} alt="" />
+          <Poster src={`${POSTER_PATH}${show.poster_path}`} alt='' />
           <div>
             <h1>{show.name}</h1>
             <h3>
