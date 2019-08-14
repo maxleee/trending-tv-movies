@@ -3,24 +3,42 @@ import styled from 'styled-components';
 import { Portal } from 'Utilities';
 import Icon from './Icon';
 
+import { Transition } from 'react-spring/renderprops';
+
 export default class Menu extends Component {
+  onClick = function(value) {
+    this.props.changeCategory(value);
+    this.props.toggle();
+  };
   render() {
     const { toggle, on } = this.props;
     return (
       <Portal>
-        {on && (
-          <ModalWrapper>
-            <ModalWindow>
-              <CloseButton onClick={toggle}>
-                <Icon name="close" color="#fff" />
-              </CloseButton>
-              <MenuList>
-                <li>Trending TV</li>
-                <li>Trending Movies</li>
-              </MenuList>
-            </ModalWindow>
-          </ModalWrapper>
-        )}
+        <Transition
+          items={on}
+          from={{ transform: 'translateX(-100%)', x: 0 }}
+          enter={{ transform: 'translateX(0)', x: 1 }}
+          leave={{ transform: 'translateX(-100%)', x: 0 }}
+        >
+          {on =>
+            on &&
+            (props => (
+              <ModalWrapper style={{ opacity: props.x }}>
+                <ModalWindow style={props}>
+                  <CloseButton onClick={toggle}>
+                    <Icon name="close" color="#fff" />
+                  </CloseButton>
+                  <MenuList>
+                    <li onClick={() => this.onClick('tv')}>Trending TV</li>
+                    <li onClick={() => this.onClick('movies')}>
+                      Trending Movies
+                    </li>
+                  </MenuList>
+                </ModalWindow>
+              </ModalWrapper>
+            ))
+          }
+        </Transition>
       </Portal>
     );
   }

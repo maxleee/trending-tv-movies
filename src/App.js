@@ -2,6 +2,7 @@
 import React, { Fragment, Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import './App.css';
 import ShowList from './ShowList';
 import ShowDetail from './ShowDetail';
@@ -11,9 +12,12 @@ import { Menu, Icon } from 'Elements';
 class App extends Component {
   state = {
     tv: [],
+    movies: [],
+    category: 'tv',
   };
 
   async componentDidMount() {
+    //tv call
     try {
       const result = await fetch(
         'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126',
@@ -27,7 +31,23 @@ class App extends Component {
       // eslint-disable-next-line no-console
       console.log(e);
     }
+    //movie call
+    try {
+      const result = await fetch(
+        'https://api.themoviedb.org/3/movie/popular?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US',
+      );
+      const movies = await result.json();
+
+      this.setState({
+        movies: movies.results,
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e);
+    }
   }
+
+  changeCategory = value => this.setState({ category: value });
   render() {
     return (
       <Router>
@@ -39,7 +59,11 @@ class App extends Component {
                   <button onClick={toggle}>
                     <Icon name="menu" color="#fff" />
                   </button>
-                  <Menu on={on} toggle={toggle} />
+                  <Menu
+                    on={on}
+                    toggle={toggle}
+                    changeCategory={this.changeCategory}
+                  />
                 </Fragment>
               )}
             </Toggle>
@@ -50,12 +74,26 @@ class App extends Component {
           <Switch>
             <Route
               path="/:id"
-              render={props => <ShowDetail {...props} tv={this.state.tv} />}
+              render={props => (
+                <ShowDetail
+                  {...props}
+                  tv={this.state.tv}
+                  movies={this.state.movies}
+                  category={this.state.category}
+                />
+              )}
             />
             <Route
               exact
               path="/"
-              render={props => <ShowList {...props} tv={this.state.tv} />}
+              render={props => (
+                <ShowList
+                  {...props}
+                  tv={this.state.tv}
+                  movies={this.state.movies}
+                  category={this.state.category}
+                />
+              )}
             />
           </Switch>
         </div>

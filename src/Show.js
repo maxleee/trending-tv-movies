@@ -3,17 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Overdrive from 'react-overdrive';
 
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
 
-const Show = ({ show }) => (
+const Show = ({ show, style }) => (
   <Link to={`${show.id}`}>
-    <ShowCard>
+    <ShowCard style={style}>
       <h2>{show.name}</h2>
-      <Overdrive id={show.id}>
-        <img src={`${BACKDROP_PATH}${show.backdrop_path}`} alt={show.name} />
-      </Overdrive>
+      <img src={`${BACKDROP_PATH}${show.backdrop_path}`} alt={show.name} />
     </ShowCard>
   </Link>
 );

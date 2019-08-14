@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Poster} from './Show';
-import Overdrive from 'react-overdrive';
+import { Poster } from './Show';
 
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w342/';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
@@ -15,16 +14,14 @@ class ShowDetail extends Component {
 
     return (
       <ShowWrapper backdrop={`${BACKDROP_PATH}${show.backdrop_path}`}>
-        <Overdrive id={show.id}>
-          <ShowHeader>
-            <img
-              src={`${BACKDROP_PATH}${show.backdrop_path}`}
-              alt={`${show.name} Backdrop`}
-            />
-          </ShowHeader>
-        </Overdrive>
+        <ShowHeader>
+          <img
+            src={`${BACKDROP_PATH}${show.backdrop_path}`}
+            alt={`${show.name} Backdrop`}
+          />
+        </ShowHeader>
         <ShowInfo>
-          <Poster src={`${POSTER_PATH}${show.poster_path}`} alt='' />
+          <Poster src={`${POSTER_PATH}${show.poster_path}`} alt="" />
           <div>
             <h1>{show.name}</h1>
             <h3>
