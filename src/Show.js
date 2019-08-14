@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { animated } from 'react-spring/renderprops';
+
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
 
 const Show = ({ show, style }) => (
@@ -31,7 +33,7 @@ export const Poster = styled.img`
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 2px 6px black;
 `;
 
-const ShowCard = styled.div`
+const ShowCard = styled(animated.div)`
   max-height: 200px;
   border-radius: 5px;
   margin: 1rem;
