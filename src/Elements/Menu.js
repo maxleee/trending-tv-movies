@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Portal } from 'Utilities';
 import Icon from './Icon';
@@ -29,10 +30,14 @@ export default class Menu extends Component {
                     <Icon name="close" color="#fff" />
                   </CloseButton>
                   <MenuList>
-                    <li onClick={() => this.onClick('tv')}>Trending TV</li>
-                    <li onClick={() => this.onClick('movies')}>
-                      Trending Movies
-                    </li>
+                    <Link to="/">
+                      <li onClick={() => this.onClick('tv')}>Trending TV</li>
+                    </Link>
+                    <Link to="/">
+                      <li onClick={() => this.onClick('movies')}>
+                        Trending Movies
+                      </li>
+                    </Link>
                   </MenuList>
                 </ModalWindow>
               </ModalWrapper>
@@ -72,7 +77,11 @@ const MenuList = styled.ul`
   padding: 0;
   li {
     font-size: 2rem;
-    padding-bottom: 1rem;
     font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  a {
+    text-decoration: none;
+    color: white;
   }
 `;

@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,98 +9,81 @@ import ShowDetail from './ShowDetail';
 import { Toggle } from 'Utilities';
 import { Menu, Icon } from 'Elements';
 
-class App extends Component {
-  state = {
-    tv: [],
-    movies: [],
-    category: 'tv',
+const App = () => {
+  const [tv, setTv] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [category, setCategory] = useState('tv');
+
+  const fetchTv = async () => {
+    const res = await fetch(
+      'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126',
+    );
+    const data = await res.json();
+    setTv(data.results);
   };
 
-  async componentDidMount() {
-    //tv call
-    try {
-      const result = await fetch(
-        'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126',
-      );
-      const shows = await result.json();
-
-      this.setState({
-        tv: shows.results,
-      });
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(e);
-    }
-    //movie call
-    try {
-      const result = await fetch(
-        'https://api.themoviedb.org/3/movie/popular?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US',
-      );
-      const movies = await result.json();
-
-      this.setState({
-        movies: movies.results,
-      });
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(e);
-    }
-  }
-
-  changeCategory = value => this.setState({ category: value });
-  render() {
-    return (
-      <Router>
-        <div className="App">
-          <Header>
-            <Toggle>
-              {({ on, toggle }) => (
-                <Fragment>
-                  <button onClick={toggle}>
-                    <Icon name="menu" color="#fff" />
-                  </button>
-                  <Menu
-                    on={on}
-                    toggle={toggle}
-                    changeCategory={this.changeCategory}
-                  />
-                </Fragment>
-              )}
-            </Toggle>
-            <Link to="/">LUTV</Link>
-            <div />
-          </Header>
-
-          <Switch>
-            <Route
-              path="/:id"
-              render={props => (
-                <ShowDetail
-                  {...props}
-                  tv={this.state.tv}
-                  movies={this.state.movies}
-                  category={this.state.category}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/"
-              render={props => (
-                <ShowList
-                  {...props}
-                  tv={this.state.tv}
-                  movies={this.state.movies}
-                  category={this.state.category}
-                />
-              )}
-            />
-          </Switch>
-        </div>
-      </Router>
+  const fetchMovies = async () => {
+    const res = await fetch(
+      'https://api.themoviedb.org/3/movie/popular?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US',
     );
-  }
-}
+    const data = await res.json();
+    setMovies(data.results);
+  };
+
+  useEffect(() => {
+    fetchTv();
+    fetchMovies();
+  }, []);
+
+  const changeCategory = value => setCategory(value);
+
+  return (
+    <Router>
+      <div className="App">
+        <Header>
+          <Toggle>
+            {({ on, toggle }) => (
+              <Fragment>
+                <button onClick={toggle}>
+                  <Icon name="menu" color="#fff" />
+                </button>
+                <Menu on={on} toggle={toggle} changeCategory={changeCategory} />
+              </Fragment>
+            )}
+          </Toggle>
+          <Link to="/">LUTV</Link>
+          <div />
+        </Header>
+
+        <Switch>
+          <Route
+            path="/:id"
+            render={props => (
+              <ShowDetail
+                {...props}
+                tv={tv}
+                movies={movies}
+                category={category}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <ShowList
+                {...props}
+                tv={tv}
+                movies={movies}
+                category={category}
+              />
+            )}
+          />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
 
 export default App;
 

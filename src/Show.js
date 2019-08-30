@@ -1,21 +1,39 @@
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { animated } from 'react-spring/renderprops';
+import { animated, Spring } from 'react-spring/renderprops';
 
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
 
-const Show = ({ show, style }) => (
-  <Link to={`${show.id}`}>
-    <ShowCard style={style}>
-      <h2>{show.name}</h2>
-      <img src={`${BACKDROP_PATH}${show.backdrop_path}`} alt={show.name} />
-    </ShowCard>
-  </Link>
-);
+const Show = ({ show, style }) => {
+  const [hovered, setHovered] = useState(false);
+  const setHover = () => setHovered(true);
+  const cancelHover = () => setHovered(false);
+
+  return (
+    <Spring
+      to={{
+        transform: `scale(${hovered ? 1.1 : 1})`,
+      }}
+    >
+      {props => (
+        <Link to={`${show.id}`} onMouseOver={setHover} onMouseOut={cancelHover}>
+          <ShowCard style={style}>
+            <h2>{show.name || show.title}</h2>
+            <img
+              src={`${BACKDROP_PATH}${show.backdrop_path}`}
+              alt={show.name}
+              style={props}
+            />
+          </ShowCard>
+        </Link>
+      )}
+    </Spring>
+  );
+};
 
 Show.propTypes = {
   show: PropTypes.shape({
@@ -48,6 +66,7 @@ const ShowCard = styled(animated.div)`
     padding-left: 20px;
     bottom: 0;
     text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+    z-index: 10;
   }
   img {
     width: 100%;

@@ -12,7 +12,7 @@ class ShowList extends Component {
       <ShowGrid>
         <Trail
           native
-          config={{ tension: 230, friction: 30 }}
+          config={{ tension: 500, friction: 35 }}
           items={useCategory}
           keys={useCategory => useCategory.id}
           from={{ opacity: 0, transform: 'scale(0.8)' }}
