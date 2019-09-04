@@ -1,13 +1,13 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Fragment, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import React, {Fragment, useState, useEffect} from 'react';
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 import './App.css';
 import ShowList from './ShowList';
 import ShowDetail from './ShowDetail';
-import { Toggle } from 'Utilities';
-import { Menu, Icon } from 'Elements';
+import {Toggle} from 'Utilities';
+import {Menu, Icon} from 'Elements';
 
 const App = () => {
   const [tv, setTv] = useState([]);
@@ -16,7 +16,7 @@ const App = () => {
 
   const fetchTv = async () => {
     const res = await fetch(
-      'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126',
+      'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126'
     );
     const data = await res.json();
     setTv(data.results);
@@ -24,7 +24,7 @@ const App = () => {
 
   const fetchMovies = async () => {
     const res = await fetch(
-      'https://api.themoviedb.org/3/movie/popular?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US',
+      'https://api.themoviedb.org/3/movie/popular?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US'
     );
     const data = await res.json();
     setMovies(data.results);
@@ -39,37 +39,30 @@ const App = () => {
 
   return (
     <Router>
-      <div className="App">
+      <div className='App'>
         <Header>
           <Toggle>
-            {({ on, toggle }) => (
+            {({on, toggle}) => (
               <Fragment>
                 <button onClick={toggle}>
-                  <Icon name="menu" color="#fff" />
+                  <Icon name='menu' color='#fff' />
                 </button>
                 <Menu on={on} toggle={toggle} changeCategory={changeCategory} />
               </Fragment>
             )}
           </Toggle>
-          <Link to="/">LUTV</Link>
+          <Link to='/'>LUTV</Link>
           <div />
         </Header>
 
         <Switch>
           <Route
-            path="/:id"
-            render={props => (
-              <ShowDetail
-                {...props}
-                tv={tv}
-                movies={movies}
-                category={category}
-              />
-            )}
+            path='/:id'
+            render={props => <ShowDetail {...props} category={category} />}
           />
           <Route
             exact
-            path="/"
+            path='/'
             render={props => (
               <ShowList
                 {...props}

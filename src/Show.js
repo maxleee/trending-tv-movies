@@ -1,14 +1,14 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
-import { animated, Spring } from 'react-spring/renderprops';
+import {animated, Spring} from 'react-spring/renderprops';
 
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
 
-const Show = ({ show, style }) => {
+const Show = ({show, style}) => {
   const [hovered, setHovered] = useState(false);
   const setHover = () => setHovered(true);
   const cancelHover = () => setHovered(false);
@@ -16,7 +16,7 @@ const Show = ({ show, style }) => {
   return (
     <Spring
       to={{
-        transform: `scale(${hovered ? 1.1 : 1})`,
+        transform: `scale(${hovered ? 1.1 : 1})`
       }}
     >
       {props => (
@@ -39,17 +39,13 @@ Show.propTypes = {
   show: PropTypes.shape({
     name: PropTypes.string,
     overview: PropTypes.string,
-    id: PropTypes.number,
-  }).isRequired,
+    id: PropTypes.number
+  }).isRequired
 };
 
 Show.defaultProps = {};
 
 export default Show;
-
-export const Poster = styled.img`
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 2px 6px black;
-`;
 
 const ShowCard = styled(animated.div)`
   max-height: 200px;
