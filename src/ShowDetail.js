@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import TVInfoPanel from './TVInfoPanel';
+import {useSpring, animated} from 'react-spring';
 
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w342/';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
@@ -10,42 +12,53 @@ const ShowDetail = props => {
   const [isLoaded, setLoaded] = useState(false);
   const id = props.match.params.id;
 
-  const fetchShowData = async () => {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/${props.category}/${id}?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`
-    );
-    const data = await res.json();
-    setShowData(data);
-    setLoaded(true);
-  };
+  const headerProps = useSpring({opacity: 1, from: {opacity: 0}});
+  const leftColumnProps = useSpring({
+    opacity: 1,
+    transform: 'translateY(-30px)',
+    from: {opacity: 0, transform: 'translateY(30px)'}
+  });
 
   useEffect(() => {
+    const fetchShowData = async () => {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/${props.category}/${id}?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`
+      );
+      const data = await res.json();
+      setShowData(data);
+      setLoaded(true);
+    };
     fetchShowData();
-  }, [id]);
+  }, [id, props.category]);
 
   return (
     <ShowWrapper>
       {isLoaded && (
         <React.Fragment>
-          <ShowHeader>
+          <ShowHeader style={headerProps}>
             <img
               src={`${BACKDROP_PATH}${showData.backdrop_path}`}
               alt={`${showData.name} Backdrop`}
             />
+            <Button to='/'>Back</Button>
           </ShowHeader>
           <ShowInfo>
-            <LeftColumn>
+            <LeftColumn style={leftColumnProps}>
               <Poster src={`${POSTER_PATH}${showData.poster_path}`} alt='' />
               <GenreTags>
                 {showData.genres.map(genre => (
                   <p key={genre.id}>{genre.name}</p>
                 ))}
               </GenreTags>
-              <NetworkLogo
-                src={`https://image.tmdb.org/t/p/w92/${showData.networks[0].logo_path}`}
-              />
+              {props.category === 'tv' && (
+                <>
+                  <NetworkLogo
+                    src={`https://image.tmdb.org/t/p/w92/${showData.networks[0].logo_path}`}
+                  />
+                </>
+              )}
             </LeftColumn>
-            <TVInfoPanel showData={showData} />
+            {props.category === 'tv' && <TVInfoPanel showData={showData} />}
           </ShowInfo>
         </React.Fragment>
       )}
@@ -55,7 +68,7 @@ const ShowDetail = props => {
 
 export default ShowDetail;
 
-const LeftColumn = styled.div`
+const LeftColumn = styled(animated.div)`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -65,8 +78,24 @@ const LeftColumn = styled.div`
   width: 30%;
 `;
 
+const Button = styled(Link)`
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.15rem;
+  position: absolute;
+  top: 20px;
+  color: white;
+  margin-left: 10%;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s;
+  :hover {
+    transform: translateY(-3px);
+  }
+`;
+
 const Poster = styled.img`
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 2px 6px black;
+  width: 100%;
 `;
 
 const GenreTags = styled.div`
@@ -93,12 +122,13 @@ const ShowWrapper = styled.div`
   overflow: hidden;
 `;
 
-const ShowHeader = styled.div`
+const ShowHeader = styled(animated.div)`
   width: 100%;
   height: 40vh;
   overflow: hidden;
   display: flex;
   align-items: flex-start;
+  position: relative;
   img {
     width: 100vw;
   }

@@ -16,7 +16,7 @@ const App = () => {
 
   const fetchTv = async () => {
     const res = await fetch(
-      'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126'
+      'https://api.themoviedb.org/3/trending/tv/week?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US'
     );
     const data = await res.json();
     setTv(data.results);
@@ -51,7 +51,9 @@ const App = () => {
               </Fragment>
             )}
           </Toggle>
-          <Link to='/'>LUTV</Link>
+          <Link to='/'>
+            {category === 'movie' ? 'Trending Movies' : 'Trending TV'}
+          </Link>
           <div />
         </Header>
 
@@ -96,9 +98,6 @@ const Header = styled.header`
     color: white;
     transition: 0.2s all ease-out;
     padding: 0;
-  }
-  a:hover {
-    transform: translateY(-3px);
   }
   button {
     background: transparent;
