@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {Portal} from 'Utilities';
+import { Portal } from 'Utilities';
 import Icon from './Icon';
 
-import {Transition} from 'react-spring/renderprops';
+import { Transition } from 'react-spring/renderprops';
 
 export default class Menu extends Component {
   onClick = function(value) {
@@ -12,28 +12,28 @@ export default class Menu extends Component {
     this.props.toggle();
   };
   render() {
-    const {toggle, on} = this.props;
+    const { toggle, on } = this.props;
     return (
       <Portal>
         <Transition
           items={on}
-          from={{transform: 'translateX(-100%)', x: 0}}
-          enter={{transform: 'translateX(0)', x: 1}}
-          leave={{transform: 'translateX(-100%)', x: 0}}
+          from={{ transform: 'translateX(-100%)', x: 0 }}
+          enter={{ transform: 'translateX(0)', x: 1 }}
+          leave={{ transform: 'translateX(-100%)', x: 0 }}
         >
           {on =>
             on &&
             (props => (
-              <ModalWrapper style={{opacity: props.x}}>
+              <ModalWrapper style={{ opacity: props.x }}>
                 <ModalWindow style={props}>
                   <CloseButton onClick={toggle}>
-                    <Icon name='close' color='#fff' />
+                    <Icon name="close" color="#fff" />
                   </CloseButton>
                   <MenuList>
-                    <Link to='/'>
+                    <Link to="/">
                       <li onClick={() => this.onClick('tv')}>Trending TV</li>
                     </Link>
-                    <Link to='/'>
+                    <Link to="/">
                       <li onClick={() => this.onClick('movie')}>
                         Trending Movies
                       </li>
@@ -65,6 +65,10 @@ const ModalWindow = styled.div`
   height: 100%;
   padding: 50px;
   background: rgba(0, 0, 10, 1);
+
+  @media (max-width: 600px) {
+    width: 75%;
+  }
 `;
 
 const CloseButton = styled.button`

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
-const TVInfoPanel = props => {
+const MovieInfoPanel = props => {
   const { showData } = props;
   const [cast, setCast] = useState([]);
   const [castLoaded, setCastLoaded] = useState(false);
@@ -12,7 +12,7 @@ const TVInfoPanel = props => {
   useEffect(() => {
     const fetchCast = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/tv/${showData.id}/credits?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`,
+        `https://api.themoviedb.org/3/movie/${showData.id}/credits?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`,
       );
       const data = await res.json();
       const cast = data.cast.sort((a, b) => (a.order > b.order ? 1 : -1));
@@ -25,27 +25,9 @@ const TVInfoPanel = props => {
   return (
     <InfoWrapper style={wrapperProps}>
       <Overview>
-        <h1>{showData.name}</h1>
+        <h1>{showData.original_title}</h1>
         <p>{showData.overview}</p>
       </Overview>
-      <SeasonsWrap>
-        {showData.seasons.map(season => {
-          const airDate = new Date(season.air_date);
-          return (
-            <Season>
-              <img
-                src={`https://image.tmdb.org/t/p/w342/${season.poster_path}`}
-                alt={season.name}
-              />
-              <div>
-                <h3>{season.name}</h3>
-                <p>{season.episode_count} Episodes</p>
-                <p>{airDate.getFullYear()}</p>
-              </div>
-            </Season>
-          );
-        })}
-      </SeasonsWrap>
       <h3>Cast</h3>
       {castLoaded && (
         <CastList>
@@ -66,7 +48,6 @@ const TVInfoPanel = props => {
 
 const InfoWrapper = styled(animated.div)`
   width: 65%;
-
   @media (max-width: 600px) {
     width: 100%;
   }
@@ -74,20 +55,6 @@ const InfoWrapper = styled(animated.div)`
 
 const Overview = styled.div`
   margin-bottom: 30px;
-`;
-
-const SeasonsWrap = styled.div``;
-
-const Season = styled.div`
-  display: flex;
-  margin-bottom: 40px;
-  img {
-    height: 200px;
-  }
-
-  div {
-    margin-left: 30px;
-  }
 `;
 
 const CastList = styled.div`
@@ -106,4 +73,4 @@ const CastImage = styled.div`
   height: 150px;
   border-radius: 75px;
 `;
-export default TVInfoPanel;
+export default MovieInfoPanel;

@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import TVInfoPanel from './TVInfoPanel';
-import {useSpring, animated} from 'react-spring';
+import MovieInfoPanel from './MovieInfoPanel';
+import { useSpring, animated } from 'react-spring';
 
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w342/';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
@@ -12,17 +13,17 @@ const ShowDetail = props => {
   const [isLoaded, setLoaded] = useState(false);
   const id = props.match.params.id;
 
-  const headerProps = useSpring({opacity: 1, from: {opacity: 0}});
+  const headerProps = useSpring({ opacity: 1, from: { opacity: 0 } });
   const leftColumnProps = useSpring({
     opacity: 1,
     transform: 'translateY(-30px)',
-    from: {opacity: 0, transform: 'translateY(30px)'}
+    from: { opacity: 0, transform: 'translateY(30px)' },
   });
 
   useEffect(() => {
     const fetchShowData = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/${props.category}/${id}?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`
+        `https://api.themoviedb.org/3/${props.category}/${id}?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`,
       );
       const data = await res.json();
       setShowData(data);
@@ -40,11 +41,11 @@ const ShowDetail = props => {
               src={`${BACKDROP_PATH}${showData.backdrop_path}`}
               alt={`${showData.name} Backdrop`}
             />
-            <Button to='/'>Back</Button>
+            <Button to="/">Back</Button>
           </ShowHeader>
           <ShowInfo>
             <LeftColumn style={leftColumnProps}>
-              <Poster src={`${POSTER_PATH}${showData.poster_path}`} alt='' />
+              <Poster src={`${POSTER_PATH}${showData.poster_path}`} alt="" />
               <GenreTags>
                 {showData.genres.map(genre => (
                   <p key={genre.id}>{genre.name}</p>
@@ -59,6 +60,9 @@ const ShowDetail = props => {
               )}
             </LeftColumn>
             {props.category === 'tv' && <TVInfoPanel showData={showData} />}
+            {props.category === 'movie' && (
+              <MovieInfoPanel showData={showData} />
+            )}
           </ShowInfo>
         </React.Fragment>
       )}
@@ -76,6 +80,13 @@ const LeftColumn = styled(animated.div)`
   align-items: flex-start;
   margin-right: 40px;
   width: 30%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    align-items: center;
+    margin-right: 0px;
+    top: 0rem;
+  }
 `;
 
 const Button = styled(Link)`
@@ -96,6 +107,10 @@ const Button = styled(Link)`
 const Poster = styled.img`
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 2px 6px black;
   width: 100%;
+
+  @media (max-width: 600px) {
+    width: 75%;
+  }
 `;
 
 const GenreTags = styled.div`
@@ -132,6 +147,10 @@ const ShowHeader = styled(animated.div)`
   img {
     width: 100vw;
   }
+
+  @media (max-width: 600px) {
+    height: inherit;
+  }
 `;
 
 const ShowInfo = styled.div`
@@ -141,4 +160,7 @@ const ShowInfo = styled.div`
   padding: 1rem 10%;
   display: flex;
   max-width: 90vw;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
