@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import { useSpring, animated } from 'react-spring';
+import {useSpring, animated} from 'react-spring';
+import {key} from './Utilities';
 
 const MovieInfoPanel = props => {
-  const { showData } = props;
+  const {showData} = props;
   const [cast, setCast] = useState([]);
   const [castLoaded, setCastLoaded] = useState(false);
 
-  const wrapperProps = useSpring({ opacity: 1, from: { opacity: 0 } });
+  const wrapperProps = useSpring({opacity: 1, from: {opacity: 0}});
 
   useEffect(() => {
     const fetchCast = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${showData.id}/credits?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`,
+        `https://api.themoviedb.org/3/movie/${showData.id}/credits?api_key=${key}&language=en-US`
       );
       const data = await res.json();
       const cast = data.cast.sort((a, b) => (a.order > b.order ? 1 : -1));

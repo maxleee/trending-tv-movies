@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import TVInfoPanel from './TVInfoPanel';
 import MovieInfoPanel from './MovieInfoPanel';
-import { useSpring, animated } from 'react-spring';
+import {useSpring, animated} from 'react-spring';
+import {key} from './Utilities';
 
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w342/';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280/';
@@ -13,17 +14,17 @@ const ShowDetail = props => {
   const [isLoaded, setLoaded] = useState(false);
   const id = props.match.params.id;
 
-  const headerProps = useSpring({ opacity: 1, from: { opacity: 0 } });
+  const headerProps = useSpring({opacity: 1, from: {opacity: 0}});
   const leftColumnProps = useSpring({
     opacity: 1,
     transform: 'translateY(-30px)',
-    from: { opacity: 0, transform: 'translateY(30px)' },
+    from: {opacity: 0, transform: 'translateY(30px)'}
   });
 
   useEffect(() => {
     const fetchShowData = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/${props.category}/${id}?api_key=3c5dee1740e9688bb656d073abfb0126&language=en-US`,
+        `https://api.themoviedb.org/3/${props.category}/${id}?api_key=${key}&language=en-US`
       );
       const data = await res.json();
       setShowData(data);
@@ -41,11 +42,11 @@ const ShowDetail = props => {
               src={`${BACKDROP_PATH}${showData.backdrop_path}`}
               alt={`${showData.name} Backdrop`}
             />
-            <Button to="/">Back</Button>
+            <Button to='/'>Back</Button>
           </ShowHeader>
           <ShowInfo>
             <LeftColumn style={leftColumnProps}>
-              <Poster src={`${POSTER_PATH}${showData.poster_path}`} alt="" />
+              <Poster src={`${POSTER_PATH}${showData.poster_path}`} alt='' />
               <GenreTags>
                 {showData.genres.map(genre => (
                   <p key={genre.id}>{genre.name}</p>
