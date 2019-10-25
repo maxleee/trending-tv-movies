@@ -1,4 +1,4 @@
-## Trending TV and Movies
+## Trending TV and Movies 🌈📺🎥✨
 A personal project that fetches data from the [TV Movie Database](https://www.themoviedb.org/documentation/api?language=en-US) and displays a list of Trending TV Shows and Movies, with detail description pages of each Show and Movie.
 
 ### 🍎I used this project to learn:
