@@ -6,6 +6,7 @@ import {key} from './Utilities';
 const TVInfoPanel = props => {
   const {showData} = props;
   const [cast, setCast] = useState([]);
+  const [mainCast, setMainCast] = useState([])
   const [castLoaded, setCastLoaded] = useState(false);
 
   const wrapperProps = useSpring({opacity: 1, from: {opacity: 0}});
@@ -17,7 +18,10 @@ const TVInfoPanel = props => {
       );
       const data = await res.json();
       const cast = data.cast.sort((a, b) => (a.order > b.order ? 1 : -1));
-      setCast(cast);
+      const mainCast = cast.slice(0,4);
+      const subCast = cast.slice(4)
+      setCast(subCast);
+      setMainCast(mainCast)
       setCastLoaded(true);
     };
     fetchCast();
@@ -33,7 +37,7 @@ const TVInfoPanel = props => {
         {showData.seasons.map(season => {
           const airDate = new Date(season.air_date);
           return (
-            <Season>
+            <Season key={season.air_date}>
               <img
                 src={`https://image.tmdb.org/t/p/w342/${season.poster_path}`}
                 alt={season.name}
@@ -50,15 +54,24 @@ const TVInfoPanel = props => {
       <h3>Cast</h3>
       {castLoaded && (
         <CastList>
-          {cast.map(member => (
+          {mainCast.map(member => (
             <div key={member.id}>
               <CastImage
                 background={`https://image.tmdb.org/t/p/w185/${member.profile_path}`}
-              />
+                />
               <h4>{member.name}</h4>
               <p>{member.character}</p>
             </div>
-          ))}
+                ))
+              } 
+          <div className="subCast">
+            {cast.map(member => (
+              <div className="castMember" key={member.name}>
+              <h4>{member.name}</h4>
+              <p>{member.character}</p>
+              </div>
+            ))}
+          </div>
         </CastList>
       )}
     </InfoWrapper>
@@ -85,17 +98,24 @@ const Season = styled.div`
   img {
     height: 200px;
   }
-
   div {
     margin-left: 30px;
   }
+  
 `;
 
 const CastList = styled.div`
   display: flex;
-  overflow: scroll;
+  flex-wrap: wrap;
   div {
-    margin-right: 15px;
+    margin-right: 1rem;
+  }
+  .subCast {
+    width: 100%;
+    margin-top: 1rem;
+    .castMember {
+      margin-top: 1rem;
+    }
   }
 `;
 
